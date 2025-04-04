@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Viewer</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: #0d47a1;
+            color: white;
+            padding: 10px 20px;
+            font-size: 20px;
+        }
+        #viewer-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f5f5;
+        }
+        iframe {
+            width: 90%;
+            height: 90vh;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        PDF Viewer
+    </header>
+    <div id="viewer-container">
+        <iframe id="pdf-frame" src=""></iframe>
+    </div>
+
+    <script>
+        function detectFolder(filename) {
+            const normalized = filename.replace(/-/g, '_');
+    
+            if (normalized.includes('KLS_XII')) {
+                return 'books/book12';
+            } else if (normalized.includes('KLS_XI')) {
+                return 'books/book11';
+            } else if (normalized.includes('KLS_X')) {
+                return 'books/book10';
+            }
+    
+            return '';
+        }
+    
+        const urlParams = new URLSearchParams(window.location.search);
+        const file = urlParams.get('file');
+    
+        if (file) {
+            const folder = detectFolder(file);
+            const pdfUrl = `/${folder}/${file}`;
+    
+            const iframe = document.getElementById('pdf-frame');
+            iframe.src = pdfUrl;
+        }
+    </script>
+    
+</body>
+</html>
